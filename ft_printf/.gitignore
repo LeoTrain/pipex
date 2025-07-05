@@ -1,0 +1,6 @@
+prog
+main.c
+*.o
+tests/
+*.a
+.bonus_flag

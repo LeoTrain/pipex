@@ -3,26 +3,26 @@ CC		= cc
 CFLAGS	= -Wall -Wextra -Werror
 SRCS	= main.c
 OBJS	= $(SRCS:.c=.o)
-PRINTF	= ./headers/ft_printf.h
+PRINTF	= ./ft_printf/libftprintf.a
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT)
+$(NAME): $(OBJS) $(PRINTF)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(PRINTF)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(LIBFT):
-	make -C libft
+$(PRINTF):
+	make -C ft_printf
 
 clean:
 	rm -f $(OBJS)
-	make -C libft clean
+	make -C ft_printf clean
 
 fclean: clean
 	rm -f $(NAME)
-	make -C libft fclean
+	make -C ft_printf fclean
 
 re: fclean all
 

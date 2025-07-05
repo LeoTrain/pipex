@@ -6,7 +6,7 @@
 /*   By: leberton <leberton@42vienna.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:17:05 by leberton          #+#    #+#             */
-/*   Updated: 2025/04/28 07:05:23 by leberton         ###   ########.fr       */
+/*   Updated: 2025/07/05 13:43:40 by leberton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_word_len(const char *s, char c)
 	return (len);
 }
 
-void	*ft_free_split(char **result)
+static void	*ft_free_split(char **result)
 {
 	size_t	i;
 	i = 0;

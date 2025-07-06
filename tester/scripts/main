@@ -1,0 +1,26 @@
+#!/bin/bash
+
+source "$HOME/lab/pipex/tester/scripts/tester"
+
+main(){
+	print_header
+	run_test "Basic grep + wc" \
+			 "hello world foo bar hello again" \
+			 "cat" \
+			 "grep bar"
+	run_test "Cat then grep apple" \
+			 "apple\nbanana\napple pie" \
+			 "cat" \
+			 "grep apple"
+	run_test "Grep nonexistent word" \
+			 "apple\nbanana\ncarrot" \
+			 "grep kiwi" \
+			 "wc -l"
+	run_test "Cat with empty infile" \
+			 "" \
+			 "cat" \
+			 "wc -l"
+	print_final
+}
+
+main

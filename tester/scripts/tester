@@ -1,0 +1,42 @@
+#!/bin/bash
+
+source "$HOME/lab/pipex/tester/scripts/tester_utils"
+
+check_memory_leaks() {
+    local cmd1=$1
+    local cmd2=$2
+
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        leaks -quiet --atExit -- ./$PIPEX infile "$cmd1" "$cmd2" outfile > leaks_output.txt 2>/dev/null
+        if grep -q "0 leaks" leaks_output.txt; then
+            leaks_status="${GREEN}[OK]${NC}"
+        else
+            leaks_status="${RED}[KO]${NC}"
+            cat leaks_output.txt
+        fi
+        rm -f leaks_output.txt
+    else
+        valgrind --leak-check=full --error-exitcode=42 ./$PIPEX infile "$cmd1" "$cmd2" outfile > /dev/null 2>&1
+        if [[ $? -eq 0 ]]; then
+            leaks_status="${GREEN}[OK]${NC}"
+        else
+            leaks_status="${RED}[KO]${NC}"
+        fi
+    fi
+}
+
+run_test() {
+    local desc=$1
+    local content=$2
+    local cmd1=$3
+    local cmd2=$4
+
+    reset_files "$content"
+    setup_expected_output "$cmd1" "$cmd2"
+    local expected=$(cat expected_outfile)
+    $PIPEX infile "$cmd1" "$cmd2" outfile
+    local result=$(cat outfile 2>/dev/null)
+    compare_results "$expected" "$result"
+    check_memory_leaks "$cmd1" "$cmd2"
+    print_test_result "$desc" "$expected" "$result"
+}

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers/pipex.h"
+#include "../headers/pipex.h"
 
 int	setup_fds(t_pipex *p)
 {

@@ -1,7 +1,7 @@
 NAME	= pipex
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror
-SRCS	= main.c srcs/exec_cmds.c srcs/get_cmd_path.c srcs/utils.c
+SRCS	= srcs/main.c srcs/exec_cmds.c srcs/get_cmd_path.c srcs/utils.c
 OBJS	= $(SRCS:.c=.o)
 PRINTF	= ./ft_printf/libftprintf.a
 

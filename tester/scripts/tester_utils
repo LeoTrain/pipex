@@ -1,0 +1,36 @@
+#!/bin/bash
+
+source "$HOME/lab/pipex/tester/scripts/utils"
+
+
+setup_expected_output() {
+    local cmd1=$1
+    local cmd2=$2
+
+    < infile $cmd1 | $cmd2 > expected_outfile 2>/dev/null
+}
+
+compare_results() {
+    local expected=$(cat expected_outfile 2>/dev/null)
+    local result=$(cat outfile 2>/dev/null)
+
+    if [[ "$result" == "$expected" ]]; then
+        res_status="${GREEN}[OK]${NC}"
+    else
+        res_status="${RED}[KO]${NC}"
+    fi
+
+    rm -f expected_outfile
+}
+
+print_test_result() {
+    local desc=$1
+    local expected=$2
+    local result=$3
+
+    printf "  %-52s %-10b %-10b\n" "$desc" "$res_status" "$leaks_status"
+    if [[ "$res_status" == *"[KO]"* ]]; then
+        echo -e "${YELLOW}  Expected:${NC}\n$expected"
+        echo -e "${YELLOW}  Got:${NC}\n$result"
+    fi
+}

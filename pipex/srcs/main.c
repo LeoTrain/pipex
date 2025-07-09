@@ -12,7 +12,7 @@
 
 #include "../headers/pipex.h"
 
-int	setup_fds(t_pipex *p)
+static int	setup_fds(t_pipex *p)
 {
 	p->fd1 = open(p->argv[1], O_RDONLY);
 	if (p->fd1 < 0)
@@ -25,10 +25,11 @@ int	setup_fds(t_pipex *p)
 	return (0);
 }
 
-void	exec_forks(t_pipex *p)
+static int	exec_forks(t_pipex *p)
 {
 	pid_t	pid1;
 	pid_t	pid2;
+	int		status;
 
 	pid1 = fork();
 	if (pid1 < 0)
@@ -45,7 +46,10 @@ void	exec_forks(t_pipex *p)
 	close(p->fd1);
 	close(p->fd2);
 	waitpid(pid1, NULL, 0);
-	waitpid(pid2, NULL, 0);
+	waitpid(pid2, &status, 0);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	return (0);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -57,6 +61,5 @@ int	main(int argc, char **argv, char **envp)
 	p.argv = argv;
 	p.envp = envp;
 	setup_fds(&p);
-	exec_forks(&p);
-	return (0);
+	return (exec_forks(&p));
 }

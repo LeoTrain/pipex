@@ -16,6 +16,7 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 {
 	char	*substr;
 	size_t	i;
+
 	if (!s)
 		return (NULL);
 	if (start >= ft_strlen(s))

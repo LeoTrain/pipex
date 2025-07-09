@@ -27,8 +27,8 @@ int	setup_fds(t_pipex *p)
 
 void	exec_forks(t_pipex *p)
 {
-	pid_t pid1;
-	pid_t pid2;
+	pid_t	pid1;
+	pid_t	pid2;
 
 	pid1 = fork();
 	if (pid1 < 0)
@@ -40,7 +40,10 @@ void	exec_forks(t_pipex *p)
 		ft_puterror("fork");
 	else if (pid2 == 0)
 		exec_cmd2(p->fd2, p->fd, p->argv, p->envp);
-	close(p->fd[0]); close(p->fd[1]); close(p->fd1); close(p->fd2);
+	close(p->fd[0]);
+	close(p->fd[1]);
+	close(p->fd1);
+	close(p->fd2);
 	waitpid(pid1, NULL, 0);
 	waitpid(pid2, NULL, 0);
 }

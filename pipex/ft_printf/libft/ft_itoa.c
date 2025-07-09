@@ -15,6 +15,7 @@
 int	ft_numlen(long n)
 {
 	int	len;
+
 	len = 0;
 	if (n == 0)
 		return (1);

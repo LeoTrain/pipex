@@ -16,9 +16,9 @@ int	arg_to_int(int n, int plus)
 {
 	size_t		len;
 	char		*num;
+
 	if (n == 0)
 		return (write(1, "0", 1));
-
 	num = ft_itoa(n);
 	len = ft_strlen(num);
 	if (plus && n >= 0)

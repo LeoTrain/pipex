@@ -6,23 +6,16 @@ check_memory_leaks() {
     local cmd1=$1
     local cmd2=$2
 
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        leaks -quiet --atExit -- ./$PIPEX infile "$cmd1" "$cmd2" outfile > leaks_output.txt 2>/dev/null
-        if grep -q "0 leaks" leaks_output.txt; then
-            leaks_status="${GREEN}[OK]${NC}"
-        else
-            leaks_status="${RED}[KO]${NC}"
-            cat leaks_output.txt
-        fi
-        rm -f leaks_output.txt
+    local valgrind_log=$(mktemp)
+    valgrind --leak-check=full $PIPEX infile "$cmd1" "$cmd2" outfile &> "$valgrind_log"
+
+    if grep -q "in use at exit: 0 bytes in 0 blocks" "$valgrind_log"; then
+        leaks_status="${GREEN}[OK]${NC}"
     else
-        valgrind --leak-check=full --error-exitcode=42 ./$PIPEX infile "$cmd1" "$cmd2" outfile > /dev/null 2>&1
-        if [[ $? -eq 0 ]]; then
-            leaks_status="${GREEN}[OK]${NC}"
-        else
-            leaks_status="${RED}[KO]${NC}"
-        fi
+        leaks_status="${RED}[KO]${NC}"
     fi
+
+    rm -f "$valgrind_log"
 }
 
 run_test() {

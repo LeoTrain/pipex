@@ -36,6 +36,7 @@ size_t	ft_count_words(const char *s, char c)
 int	ft_word_len(const char *s, char c)
 {
 	int	len;
+
 	len = 0;
 	while (s[len] && s[len] != c)
 		len++;
@@ -45,6 +46,7 @@ int	ft_word_len(const char *s, char c)
 static void	*ft_free_split(char **result)
 {
 	size_t	i;
+
 	i = 0;
 	while (result[i])
 	{

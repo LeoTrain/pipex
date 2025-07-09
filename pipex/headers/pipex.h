@@ -28,7 +28,7 @@ typedef struct s_pipex
 	char	**envp;
 }	t_pipex;
 
-void	ft_puterror(const char *str);
+void	ft_puterror(const char *str, int exit_code);
 char	*ft_strjoin_free(char *s1, const char *s2);
 void	ft_free_split(char **tab);
 void	exec_cmd1(int fd1, int *fd, char **argv, char **envp);

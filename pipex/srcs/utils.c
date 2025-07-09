@@ -12,10 +12,10 @@
 
 #include "../headers/pipex.h"
 
-void	ft_puterror(const char *str)
+void	ft_puterror(const char *str, int exit_code)
 {
 	perror(str);
-	exit(EXIT_FAILURE);
+	exit(exit_code);
 }
 
 char	*ft_strjoin_free(char *s1, const char *s2)

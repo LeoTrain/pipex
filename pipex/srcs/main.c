@@ -16,12 +16,12 @@ static int	setup_fds(t_pipex *p)
 {
 	p->fd1 = open(p->argv[1], O_RDONLY);
 	if (p->fd1 < 0)
-		ft_puterror("open infile");
+		ft_puterror("open infile", 0);
 	p->fd2 = open(p->argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (p->fd2 < 0)
-		ft_puterror("open outfile");
+		ft_puterror("open outfile", 1);
 	if (pipe(p->fd) == -1)
-		ft_puterror("pipe");
+		ft_puterror("pipe", 1);
 	return (0);
 }
 
@@ -33,12 +33,12 @@ static int	exec_forks(t_pipex *p)
 
 	pid1 = fork();
 	if (pid1 < 0)
-		ft_puterror("fork");
+		ft_puterror("fork", 1);
 	else if (pid1 == 0)
 		exec_cmd1(p->fd1, p->fd, p->argv, p->envp);
 	pid2 = fork();
 	if (pid2 < 0)
-		ft_puterror("fork");
+		ft_puterror("fork", 1);
 	else if (pid2 == 0)
 		exec_cmd2(p->fd2, p->fd, p->argv, p->envp);
 	close(p->fd[0]);
@@ -57,7 +57,7 @@ int	main(int argc, char **argv, char **envp)
 	t_pipex	p;
 
 	if (argc != 5)
-		ft_puterror("You must have exactly 4 arguments.");
+		ft_puterror("You must have exactly 4 arguments.", 1);
 	p.argv = argv;
 	p.envp = envp;
 	setup_fds(&p);

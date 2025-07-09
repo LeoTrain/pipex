@@ -22,18 +22,18 @@ static void	setup_and_exec(char *cmd, char **envp)
 	if (!cmd_path)
 	{
 		ft_free_split(cmd_args);
-		ft_puterror("command not found");
+		ft_puterror("command not found", 1);
 	}
 	if (execve(cmd_path, cmd_args, envp) == -1)
-		ft_puterror("execve failed");
+		ft_puterror("execve failed", 1);
 }
 
 void	exec_cmd1(int fd1, int *fd, char **argv, char **envp)
 {
 	if (dup2(fd1, STDIN_FILENO) == -1)
-		ft_puterror("dup2 infile");
+		ft_puterror("dup2 infile", 1);
 	if (dup2(fd[1], STDOUT_FILENO) == -1)
-		ft_puterror("dup2 pipe write");
+		ft_puterror("dup2 pipe write", 1);
 	close(fd[0]);
 	close(fd[1]);
 	close(fd1);
@@ -43,9 +43,9 @@ void	exec_cmd1(int fd1, int *fd, char **argv, char **envp)
 void	exec_cmd2(int fd2, int *fd, char **argv, char **envp)
 {
 	if (dup2(fd[0], STDIN_FILENO) == -1)
-		ft_puterror("dup2 pipe read");
+		ft_puterror("dup2 pipe read", 1);
 	if (dup2(fd2, STDOUT_FILENO) == -1)
-		ft_puterror("dup2 outfile");
+		ft_puterror("dup2 outfile", 1);
 	close(fd[0]);
 	close(fd[1]);
 	close(fd2);

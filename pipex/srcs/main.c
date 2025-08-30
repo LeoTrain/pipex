@@ -17,10 +17,9 @@ static int	setup_fds(t_pipex *p)
 	p->fd1 = open(p->argv[1], O_RDONLY);
 	if (p->fd1 < 0)
 		perror("Open infile");
-		// ft_puterror("open infile", 0);
 	p->fd2 = open(p->argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (p->fd2 < 0)
-		ft_puterror("open outfile", 1);
+		perror("open outfile");
 	if (pipe(p->fd) == -1)
 		ft_puterror("pipe", 1);
 	return (EXIT_SUCCESS);
